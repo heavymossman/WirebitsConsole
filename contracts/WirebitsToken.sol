@@ -18,14 +18,18 @@ contract WirebitsToken {
         uint256 _value
     );
 
+    //Standard mapping. Takes the address as assigns an integar
     mapping(address => uint256) public balanceOf;
+    //Keeps track of the spending mapping, which tokens to to where, and so forth
     mapping(address => mapping(address => uint256)) public allowance;
 
+    //This is effectively the entire currency
     function WirebitsToken (uint256 _initialSupply) public {
         balanceOf[msg.sender] = _initialSupply;
         totalSupply = _initialSupply;
     }
 
+    // Standard transfer function, keeps track of the balance and uses the public variables
     function transfer(address _to, uint256 _value) public returns (bool success) {
         require(balanceOf[msg.sender] >= _value);
 
@@ -37,6 +41,7 @@ contract WirebitsToken {
         return true;
     }
 
+    //Approve certain accounts or exchanges to seel X amount of tokens etc. Not needed for ICO but for compliance
     function approve(address _spender, uint256 _value) public returns (bool success) {
         allowance[msg.sender][_spender] = _value;
 

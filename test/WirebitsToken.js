@@ -3,6 +3,7 @@ var WirebitsToken = artifacts.require("./WirebitsToken.sol");
 contract('DappToken', function(accounts) {
   var tokenInstance;
 
+  // This is the first test to ensure the naming conventions are correct
   it('initializes the contract with the correct values', function() {
     return WirebitsToken.deployed().then(function(instance) {
       tokenInstance = instance;
@@ -18,6 +19,7 @@ contract('DappToken', function(accounts) {
     });
   })
 
+  // This test is to check that a million tokens have been created and sent to the right account, i.e. my account
   it('allocates the initial supply upon deployment', function() {
     return WirebitsToken.deployed().then(function(instance) {
       tokenInstance = instance;
@@ -30,6 +32,7 @@ contract('DappToken', function(accounts) {
     });
   });
 
+  // This suite checkes the transfers of tokens, making sure the right amount goes to the right places
   it('transfers token ownership', function() {
     return WirebitsToken.deployed().then(function(instance) {
       tokenInstance = instance;
