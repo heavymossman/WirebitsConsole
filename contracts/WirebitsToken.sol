@@ -1,4 +1,4 @@
-pragma solidity ^0.4.23;
+pragma solidity ^0.4.21; //setting to .21 so it complies in My Ether Wallet
 
 contract WirebitsToken {
     string  public name = "Wirebits";
