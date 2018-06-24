@@ -3,8 +3,7 @@ var WirebitsToken = artifacts.require("./WirebitsToken.sol");
 contract('WirebitsToken', function(accounts) {
   var tokenInstance;
 
-  // This test block is to ensure the token is deployed with the correct  details, if they are wrong the test will fail
-  it('initialises the contract with the correct values', function() {
+  it('initializes the contract with the correct values', function() {
     return WirebitsToken.deployed().then(function(instance) {
       tokenInstance = instance;
       return tokenInstance.name();
@@ -15,25 +14,23 @@ contract('WirebitsToken', function(accounts) {
       assert.equal(symbol, 'WBITS', 'has the correct symbol');
       return tokenInstance.standard();
     }).then(function(standard) {
-      assert.equal(standard, 'Wirebits ERC Token v1.0', 'has the correct standard');
+      assert.equal(standard, 'Wirebits ERC20 Token v1.0');
     });
   })
 
-  it('sets the total supply upon deployment, bitches', function(){
-    return WirebitsToken.deployed().then(function(instance){
+  it('allocates the initial supply upon deployment', function() {
+    return WirebitsToken.deployed().then(function(instance) {
       tokenInstance = instance;
       return tokenInstance.totalSupply();
-    }).then(function(totalSupply){
-      assert.equal(totalSupply.toNumber(), 1000000, 'sets the total supply to a million');
+    }).then(function(totalSupply) {
+      assert.equal(totalSupply.toNumber(), 1000000, 'sets the total supply to 1,000,000');
       return tokenInstance.balanceOf(accounts[0]);
-    }).then(function(adminBalance){
-      assert.equal(adminBalance.toNumber(), 1000000, 'it allocated the initial supply to the admin account')
+    }).then(function(adminBalance) {
+      assert.equal(adminBalance.toNumber(), 1000000, 'it allocates the initial supply to the admin account');
     });
   });
-});
 
-
-it('transfers token ownership', function() {
+  it('transfers token ownership', function() {
     return WirebitsToken.deployed().then(function(instance) {
       tokenInstance = instance;
       // Test `require` statement first by transferring something larger than the sender's balance
@@ -58,3 +55,4 @@ it('transfers token ownership', function() {
       assert.equal(balance.toNumber(), 750000, 'deducts the amount from the sending account');
     });
   });
+});
