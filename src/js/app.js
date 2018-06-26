@@ -98,10 +98,24 @@ App = {
     })
 
 
-    App.loading = false;
-    loader.hide();
-    content.show();
+  },
 
+  //This will handle the buying of tokens functionality
+  buyTokens: function() {
+    $('#content').hide();
+    $('#loader').show();
+    let numberOfTokens = $('#numberOfTokens').val();
+    App.contracts.WirebitsTokenSale.deployed().then(function(instance) {
+      return instance.buyTokens(numberOfTokens, {
+        from: App.account,
+        value: numberOfTokens * App.tokenPrice,
+        gas: 500000 // Gas limit
+      });
+    }).then(function(result) {
+      console.log("Tokens bought...")
+      $('form').trigger('reset') // reset number of tokens in form
+      // Wait for Sell event
+    });
   }
 }
 
