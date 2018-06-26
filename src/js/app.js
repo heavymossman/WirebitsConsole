@@ -67,10 +67,41 @@ App = {
         $('#accountAddress').html("Your Account: " + account);
       }
     })
-      App.loading = false;
-      loader.hide();
-      content.show();
-    
+
+    App.contracts.WirebitsTokenSale.deployed().then(function(instance){
+      wirebitsTokenSaleInstance = instance;
+      return wirebitsTokenSaleInstance.tokenPrice();
+    }).then(function(tokenPrice) {
+      App.tokenPrice = tokenPrice;
+      $('.token-price').html(web3.fromWei(App.tokenPrice, "ether").toNumber());
+      return wirebitsTokenSaleInstance.tokensSold();
+    }).then(function(tokensSold) {
+      App.tokensSold = tokensSold.toNumber(); //change this to a number to test the progress bar
+      $('.tokens-sold').html(App.tokensSold);
+      $('.tokens-available').html(App.tokensAvailable);
+
+      //This will generate a percentage which we can update the progress bar with
+      let progressPercent = (Math.ceil(App.tokensSold) / App.tokensAvailable) * 100;
+      $('#progress').css('width', progressPercent + '%');
+
+      // Load token contract
+      App.contracts.WirebitsToken.deployed().then(function(instance) {
+        wirebitsTokenInstance = instance;
+        return wirebitsTokenInstance.balanceOf(App.account);
+      }).then(function(balance) {
+        $('.dapp-balance').html(balance.toNumber());
+        App.loading = false;
+        loader.hide();
+        content.show();
+
+      })
+    })
+
+
+    App.loading = false;
+    loader.hide();
+    content.show();
+
   }
 }
 
