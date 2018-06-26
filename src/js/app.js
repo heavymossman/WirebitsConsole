@@ -1,10 +1,14 @@
 App = {
-
   web3Provider: null,
   contracts: {},
+  account: '0x0',
+  loading: false,
+  tokenPrice: 10000000000000000,
+  tokensSold: 0,
+  tokensAvailable: 7500000,
 
-  init: function(){
-    console.log("App initialised")
+  init: function() {
+    console.log("App initialized...")
     return App.initWeb3();
   },
 
@@ -18,10 +22,10 @@ App = {
       App.web3Provider = new Web3.providers.HttpProvider('http://127.0.0.1:7545'); //The port needs to be the same as Ganache
       web3 = new Web3(App.web3Provider);
     }
-
     return App.initContracts();
   },
 
+  //The reason this works is because of the connectios in bs-config, this is were we set the src and the build/contracts (its not magic)
   initContracts: function() {
     $.getJSON("WirebitsTokenSale.json", function(wirebitsTokenSale) {
       App.contracts.WirebitsTokenSale = TruffleContract(wirebitsTokenSale);
@@ -29,9 +33,30 @@ App = {
       App.contracts.WirebitsTokenSale.deployed().then(function(wirebitsTokenSale) {
         console.log("Wirebits Token Sale Address:", wirebitsTokenSale.address);
       });
+    }).done(function() {
+      $.getJSON("WirebitsToken.json", function(wirebitsToken) {
+        App.contracts.WirebitsToken = TruffleContract(wirebitsToken);
+        App.contracts.WirebitsToken.setProvider(App.web3Provider);
+        App.contracts.WirebitsToken.deployed().then(function(wirebitsToken) {
+        console.log("Wirebits Token Address:", wirebitsToken.address);
+        });
+
+      //  App.listenForEvents();
+        return App.render();
+      });
+    })
+  },
+  render: function(){
+    // Load account data
+    web3.eth.getCoinbase(function(err, account) {
+      if(err === null) {
+        App.account = account;
+        $('#accountAddress').html("Your Account: " + account);
+      }
     })
   }
 }
+
 
 $(function() {
   $(window).load(function() {
