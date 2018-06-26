@@ -47,6 +47,19 @@ App = {
     })
   },
   render: function(){
+
+    if (App.loading) {
+      return;
+    }
+    App.loading = true;
+
+    const loader  = $('#loader');
+    const content = $('#content');
+
+    loader.show();
+    content.hide();
+
+
     // Load account data
     web3.eth.getCoinbase(function(err, account) {
       if(err === null) {
@@ -54,6 +67,10 @@ App = {
         $('#accountAddress').html("Your Account: " + account);
       }
     })
+      App.loading = false;
+      loader.hide();
+      content.show();
+    
   }
 }
 
