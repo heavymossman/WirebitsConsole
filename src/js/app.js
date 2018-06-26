@@ -41,11 +41,27 @@ App = {
         console.log("Wirebits Token Address:", wirebitsToken.address);
         });
 
-      //  App.listenForEvents();
+        App.listenForEvents();
         return App.render();
       });
     })
   },
+
+
+  // Listen for events emitted from the contract
+ listenForEvents: function() {
+   App.contracts.WirebitsTokenSale.deployed().then(function(instance) {
+     instance.Sell({}, {
+       fromBlock: 0,
+       toBlock: 'latest',
+     }).watch(function(error, event) {
+       console.log("event triggered", event);
+       App.render();
+     })
+   })
+ },
+
+
   render: function(){
 
     if (App.loading) {
@@ -112,6 +128,7 @@ App = {
         gas: 500000 // Gas limit
       });
     }).then(function(result) {
+      alert("Congratulations, your purchase was a success")
       console.log("Tokens bought...")
       $('form').trigger('reset') // reset number of tokens in form
       // Wait for Sell event
