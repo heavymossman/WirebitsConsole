@@ -125,6 +125,16 @@
 	margin-bottom: 1rem !important;
 }
 
+.my-4 {
+	margin-top: 1.5rem !important;
+	margin-bottom: 1.5rem !important;
+}
+
+.my-5 {
+	margin-top: 2.5rem !important;
+	margin-bottom: 2.5rem !important;
+}
+
 /* PADDING */
 
 .pt-0 {
@@ -295,9 +305,14 @@
     border-color: #e7e7e7;
 }
 .navbar {
-    min-height: 150px;
     margin-bottom: 20px;
     border: 1px solid transparent;
+}
+
+@media only screen and (max-width: 600px) {
+    .navbar {
+        min-height: 150px;
+    }
 }
 
 .nav>li>a {
@@ -483,7 +498,6 @@ h1.title{
   font-size: 7vh;
   /*font-family: 'Roboto', sans-serif;*/
   font-family: 'Titillium Web', sans-serif;
-
 }
 
 /* TIMELINE */
@@ -625,6 +639,7 @@ h1.title{
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
     color: #555;
     background-color: #e7e7e700;
+
 }
 
 .card {
@@ -641,7 +656,9 @@ h1.title{
     padding: 2px 16px;
 }
 
-
+.navbar-nav {
+  font-size: 1.5rem;
+}
 
 .small, small {
     font-size: 70%;
@@ -656,4 +673,27 @@ hr {
 
 hr.white {
   border-top: 1px solid #fff;
+}
+
+.panel-default {
+    border-color: #c5060a;
+}
+
+.panel-default>.panel-heading {
+    color: #fff;
+    background-color: #c5060a;
+    border-color: #000;
+}
+
+.panel-title {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 2.2rem;
+    color: inherit;
+}
+
+.redbk {
+	background-color: #960407;
+	background: linear-gradient(to bottom, #960407, #540305);
+  color: white;
 }
